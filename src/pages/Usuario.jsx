@@ -38,6 +38,14 @@ export const Usuario = (props) => {
                 </div>
                 <div className="column">
                     <div className="content-box">
+                        <h2>SLOTS</h2>
+                        <button className="column-button" onClick={() => navigate('/private')}>Play Now</button> {/* Add onClick for nav */}
+                        <br />
+                        <img src="https://media.istockphoto.com/id/1417969924/vector/golden-big-win-slot-machine.jpg?s=612x612&w=0&k=20&c=5hwXjobw0igKUpW0mqp8HFbM_YmB1OCg7fVvREosLKg=" alt="Image 4" className="image" />
+                    </div>
+                </div>
+                <div className="column">
+                    <div className="content-box">
                         <h2>MY ACCOUNT</h2>
                         <button className="column-button" onClick={() => navigate('/my-account')}>Play Now</button> {/* Add onClick for nav */}
                         <br />
