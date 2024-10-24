@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, OAuthProvider, signInWithPopup } from 'firebase/auth'; // Importar GoogleAuthProvider y signInWithPopup
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,7 +31,35 @@ export const Register = () => {
   };
 
   const handleGoogleSignUp = () => {
-      console.log('Google Sign-Up clicked');
+    const provider = new GoogleAuthProvider(); // Configurar el proveedor de Google
+    signInWithPopup(auth, provider) // Autenticar con Google usando el popup
+      .then((result) => {
+        const user = result.user;
+        console.log('Usuario autenticado con Google:', user);
+        navigate('/home');  // Redirigir al usuario a una página protegida
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error en Google Sign-In:', errorCode, errorMessage);
+        setError(errorMessage); // Mostrar el mensaje de error si ocurre
+      });
+  };
+
+  const handleAppleSignUp = () => {
+    const provider = new OAuthProvider('apple.com'); // Configurar el proveedor de Apple correctamente
+    signInWithPopup(auth, provider) // Autenticar con Apple usando el popup
+      .then((result) => {
+        const user = result.user;
+        console.log('Usuario autenticado con Apple:', user);
+        navigate('/home');  // Redirigir al usuario a una página protegida
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error en Apple Sign-In:', errorCode, errorMessage);
+        setError(errorMessage); // Mostrar el mensaje de error si ocurre
+      });
   };
 
   return (
@@ -68,6 +96,8 @@ export const Register = () => {
           {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
         </form>
         <p>Or</p>
+        
+        {/* Botón de Google */}
         <button className="google-btn" onClick={handleGoogleSignUp}>
           <img 
             src="https://cdn4.iconfinder.com/data/icons/logos-brands-7/512/google_logo-google_icongoogle-512.png" 
@@ -76,6 +106,17 @@ export const Register = () => {
           />
           Sign Up with Google
         </button>
+
+        {/* Botón de Apple */}
+        <button className="apple-btn" onClick={handleAppleSignUp}>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+            alt="Apple logo"
+            className="apple-logo"
+          />
+          Sign Up with Apple
+        </button>
+
         <button className="link-btn" onClick={() => navigate('/home')}>
           Already have an account? Login here.
         </button>
