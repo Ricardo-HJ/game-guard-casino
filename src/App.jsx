@@ -1,25 +1,22 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import Home from "./pages/home";
-import Private from './pages/private';
-import { onAuthStateChanged } from 'firebase/auth';
-import ProtectedRoute from './components/protectedRoute';
-import { auth } from './firebase';
-import { Register } from './pages/Register';
-import { Start } from './pages/Start';
-import { Visitante } from './pages/Visitante';
-import { Usuario } from './pages/Usuario';
+import { useEffect, useState } from 'react'
+import './App.css'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Home from "./pages/home"
+import Private from './pages/private'
+import { onAuthStateChanged } from 'firebase/auth'
+import ProtectedRoute from './components/protectedRoute'
+import { auth } from './firebase'
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [isFetching, setIsFetching] = useState(true);
-
+  const[user, setUser] = useState(null);
+  const[isFetching, setIsFetching] = useState(true);
+  //const [count, setCount] = useState(0)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if(user){
         setUser(user);
         setIsFetching(false);
+
         return;
       }
       setUser(null);
@@ -28,29 +25,20 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  if (isFetching) {
-    return <h2>Loading...</h2>;
+  if(isFetching){
+    return <h2>Loading...</h2>
   }
 
   return (
-    <div className='App'>
-      <BrowserRouter>
-      <Routes>
-        <Route index path="/" element={<Start />} />
-        <Route path="/private" element={
-          <ProtectedRoute user={user}>
-            <Private />
-          </ProtectedRoute>
-        } />
-        <Route path="/home" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/visitante" element={<Visitante />} />
-        <Route path="/usuario" element={<Usuario />} />
-        <Route path="/start" element={<Start />} />
-      </Routes>
+    <BrowserRouter>
+    <Routes>
+        <Route index path='/' element={<Home></Home>}></Route>
+        <Route index path='/private' element={<ProtectedRoute user={user}>
+          <Private></Private>
+        </ProtectedRoute>}></Route>
+    </Routes>
     </BrowserRouter>
-    </div>
-  );
+  )
 }
 
-export default App;
+export default App
