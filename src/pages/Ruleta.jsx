@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Ruleta.css'; 
 import ruletaImage from '../assets/ruleta.png'; 
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase'; // Import Firebase authentication
 
 const tablero = [
   { numero: 3, color: 'red' }, { numero: 6, color: 'black' }, { numero: 9, color: 'red' }, { numero: 12, color: 'red' }, 
@@ -16,6 +18,7 @@ const tablero = [
 ];
 
 const Ruleta = () => {
+  const navigate = useNavigate();
   const [apuesta, setApuesta] = useState(null);
   const [girando, setGirando] = useState(false);
   const [ganador, setGanador] = useState(null); // Estado para el número ganador
@@ -36,41 +39,61 @@ const Ruleta = () => {
     }, 3000); // Simula 3 segundos de giro
   };
 
+  const handleNavigate = () => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        navigate('/usuario');
+      } else {
+        navigate('/visitante');
+      }
+    });
+  };
+
   const picks = [
     { label: 'Red', color: 'red' }, 
     { label: 'Black', color: 'black' }
   ];
 
   return (
-    <div className="ruleta-container">
-      <img src={ruletaImage} alt="Ruleta" className={`ruleta-imagen ${girando ? 'girar' : ''}`} />
-
-      <h2>Elige tu número</h2>
-      <div className="tablero-grid">
-        {tablero.map((item) => (
-          <div
-            key={item.numero}
-            className={`casilla ${item.color} ${item.numero === 0 ? 'casilla-0' : ''}`}
-            onClick={() => handleApuesta(item.numero)}
-          >
-            {item.numero}
-          </div>
-        ))}
-        <div className="picks-grid">
-          {picks.map((pick, index) => (
-            <div key={index} className={`pick ${pick.color || ''}`} onClick={() => handleApuesta(pick.label)}>
-              {pick.label}
-            </div>
-          ))}
+    <>
+      <div className="topnav">
+        <h3 className="marca">GameGuard</h3>
+        <div className="buttonContainer">
+          <button className="topButton2" onClick={handleNavigate}>Return</button>
+          <button className="topButton1" onClick={() => navigate('/start')}>SignOut</button>
         </div>
       </div>
-      {apuesta !== null && <p>Apuesta seleccionada: {apuesta}</p>}
       
-      <button onClick={girarRuleta} disabled={girando}>Girar ruleta</button>
+      <div className="ruleta-container">
+        <img src={ruletaImage} alt="Ruleta" className={`ruleta-imagen ${girando ? 'girar' : ''}`} />
 
-      {/* Mostrar el número ganador */}
-      {ganador !== null && <p>El número ganador es: {ganador}</p>}
-    </div>
+        <h2>Elige tu número</h2>
+        <div className="tablero-grid">
+          {tablero.map((item) => (
+            <div
+              key={item.numero}
+              className={`casilla ${item.color} ${item.numero === 0 ? 'casilla-0' : ''}`}
+              onClick={() => handleApuesta(item.numero)}
+            >
+              {item.numero}
+            </div>
+          ))}
+          <div className="picks-grid">
+            {picks.map((pick, index) => (
+              <div key={index} className={`pick ${pick.color || ''}`} onClick={() => handleApuesta(pick.label)}>
+                {pick.label}
+              </div>
+            ))}
+          </div>
+        </div>
+        {apuesta !== null && <p>Apuesta seleccionada: {apuesta}</p>}
+        
+        <button onClick={girarRuleta} disabled={girando}>Girar ruleta</button>
+
+        {/* Mostrar el número ganador */}
+        {ganador !== null && <p>El número ganador es: {ganador}</p>}
+      </div>
+    </>
   );
 };
 

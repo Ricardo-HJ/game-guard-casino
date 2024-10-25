@@ -19,15 +19,7 @@ export const Visitante =  (props) => {
             <h1 className = "subtitulos">Start Playing</h1>
             <div className="row">
                 <div className="column">
-                    <div className="content-box">
-                        <h2>POKER</h2>
-                        <button className="column-button">Play Now</button> {/*AGREGAR ONCLICK PARA NAV */}
-                        <img 
-                            src="https://pngimg.com/uploads/poker/poker_PNG50.png" 
-                            alt="Image 2" 
-                            className="image" 
-                        /> 
-                    </div>
+                    
                 </div>
                 <div className="column">
                     <div className="content-box">

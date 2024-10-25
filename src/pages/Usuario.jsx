@@ -21,12 +21,7 @@ export const Usuario = (props) => {
             <h1 className="subtitulos">Welcome Back</h1>
             <div className="row">
                 <div className="column">
-                    <div className="content-box">
-                        <h2>POKER</h2>
-                        <button className="column-button" onClick={() => navigate('/poker')}>Play Now</button> {/* Add onClick for nav */}
-                        <br />
-                        <img src="https://pngimg.com/uploads/poker/poker_PNG50.png" alt="Image 1" className="image" />
-                    </div>
+                    
                 </div>
                 <div className="column">
                     <div className="content-box">
@@ -42,6 +37,17 @@ export const Usuario = (props) => {
                         <button className="column-button" onClick={() => navigate('/private')}>Play Now</button> {/* Add onClick for nav */}
                         <br />
                         <img src="https://media.istockphoto.com/id/1417969924/vector/golden-big-win-slot-machine.jpg?s=612x612&w=0&k=20&c=5hwXjobw0igKUpW0mqp8HFbM_YmB1OCg7fVvREosLKg=" alt="Image 4" className="image" />
+                    </div>
+                </div>
+                <div className="column">
+                    <div className="content-box">
+                        <h2>ROULETTE</h2>
+                        <button className="column-button" onClick={() => navigate('/ruleta')}>Play Now</button> {/*AGREGAR ONCLICK PARA NAV */}
+                        <img
+                            src="https://i.pinimg.com/originals/29/be/02/29be02186cc40532049ad529a7ff11af.png"
+                            alt="Roulette"
+                            className="image"
+                        />
                     </div>
                 </div>
                 <div className="column">

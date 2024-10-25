@@ -117,9 +117,7 @@ export const Register = () => {
           Sign Up with Apple
         </button>
 
-        <button className="link-btn" onClick={() => navigate('/home')}>
-          Already have an account? Login here.
-        </button>
+        
       </div>
     </div>
   );
