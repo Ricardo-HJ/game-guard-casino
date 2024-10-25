@@ -43,6 +43,9 @@ const Home = () => {
                 <button type="button" onClick={handleSignIn}> Login </button>
             </div>
             <button className="link-btn" onClick={() => navigate("/register")}> Don't have an account? Register here.</button>
+            <br />
+            {/* Botón para ir a la página de la ruleta */}
+            <button className="topButton2" onClick={() => navigate("/ruleta")}>Ir a la Ruleta</button>
         </div>
     </div>
   );

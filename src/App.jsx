@@ -10,6 +10,7 @@ import { Register } from './pages/Register';
 import { Start } from './pages/Start';
 import { Visitante } from './pages/Visitante';
 import { Usuario } from './pages/Usuario';
+import Ruleta from './pages/Ruleta'; // Importa la página de la ruleta
 
 function App() {
   const [user, setUser] = useState(null);
@@ -47,6 +48,7 @@ function App() {
         <Route path="/visitante" element={<Visitante />} />
         <Route path="/usuario" element={<Usuario />} />
         <Route path="/start" element={<Start />} />
+        <Route path="/ruleta" element={<Ruleta />} /> {/* Nueva ruta de la ruleta */}
       </Routes>
     </BrowserRouter>
     </div>
