@@ -47,7 +47,7 @@ export const Usuario = (props) => {
                 <div className="column">
                     <div className="content-box">
                         <h2>MY ACCOUNT</h2>
-                        <button className="column-button" onClick={() => navigate('/my-account')}>VISIT</button> {/* Add onClick for nav */}
+                        <button className="column-button" onClick={() => navigate('/perfil')}>VISIT</button> {/* Add onClick for nav */}
                         <br />
                         <img src="https://www.pngplay.com/wp-content/uploads/12/Coins-PNG-Photo-Clip-Art-Image.png" alt="Image 3" className="image" />
                     </div>
