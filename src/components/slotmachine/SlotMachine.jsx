@@ -19,18 +19,27 @@ const SlotMachine = () => {
   const [indexes, setIndexes] = useState([0, 0, 0]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [money, setMoney] = useState(null); // Initialize as null to indicate loading
+  const [userStats, setUserStats] = useState({ moneyLost: 0, moneyGained: 0, gamesPlayed: 0 });
+  const [currentGameSpent, setCurrentGameSpent] = useState(0);
+  const [currentGameWinnings, setCurrentGameWinnings] = useState(0);
 
   useEffect(() => {
     const user = auth.currentUser;
     if (user) {
-      const fetchUserMoney = async () => {
+      const fetchUserStats = async () => {
         const userDoc = doc(db, 'users', user.uid);
         const docSnap = await getDoc(userDoc);
         if (docSnap.exists()) {
-          setMoney(docSnap.data().money); // Set the actual money from Firestore
+          const userData = docSnap.data();
+          setMoney(userData.money); // Set the actual money from Firestore
+          setUserStats({
+            moneyLost: userData.moneyLost || 0,
+            moneyGained: userData.moneyGained || 0,
+            gamesPlayed: userData.gamesPlayed || 0
+          });
         }
       };
-      fetchUserMoney();
+      fetchUserStats();
     }
   }, []);
 
@@ -49,6 +58,13 @@ const SlotMachine = () => {
           moneyGained: (userData.moneyGained || 0) + winningsAmount,
           gamesPlayed: (userData.gamesPlayed || 0) + 1 // Increment gamesPlayed by 1
         }, { merge: true });
+
+        // Update local state
+        setUserStats({
+          moneyLost: (userData.moneyLost || 0) + spentAmount,
+          moneyGained: (userData.moneyGained || 0) + winningsAmount,
+          gamesPlayed: (userData.gamesPlayed || 0) + 1
+        });
       }
     }
   };
@@ -90,9 +106,12 @@ const SlotMachine = () => {
       winnings = winClass === 'win2' ? winPayouts.win2 : winPayouts.win1;
       const newMoney = money + winnings;
       setMoney(newMoney);
+      setCurrentGameWinnings(winnings); // Update local winnings for current game
       updateUserStatsInFirestore(newMoney, 0, winnings); // Update Firestore with new money and winnings
       document.querySelector('.slots').classList.add(winClass);
       setTimeout(() => document.querySelector('.slots').classList.remove(winClass), 2000);
+    } else {
+      setCurrentGameWinnings(0); // No winnings for this round
     }
   };
 
@@ -101,6 +120,7 @@ const SlotMachine = () => {
     setIsSpinning(true);
     const newMoney = money - spinCost;
     setMoney(newMoney);
+    setCurrentGameSpent(spinCost); // Update local spent for current game
     updateUserStatsInFirestore(newMoney, spinCost); // Update Firestore with new money and spent
 
     const reels = document.querySelectorAll('.slots > .reel');
@@ -118,7 +138,8 @@ const SlotMachine = () => {
   }
 
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
+      <div>
       <div className="slots">
         <Reel />
         <Reel />
@@ -130,6 +151,27 @@ const SlotMachine = () => {
       <div className="money">Money: ${money}</div>
       {money < spinCost && <div className="no-money">Not enough money to spin!</div>}
       <button onClick={resetMoneyTo1000}>Reset Money to $1000</button>
+      </div>
+      
+      
+
+      {/* Black panel for stats */}
+      <div style={{
+        backgroundColor: 'black',
+        color: 'white',
+        padding: '20px',
+        marginLeft: '20px',
+        width: '200px'
+      }}>
+        <h2>Stats</h2>
+        <p>Money: ${money}</p>
+        <p>Money Lost: ${userStats.moneyLost}</p>
+        <p>Money Gained: ${userStats.moneyGained}</p>
+        <p>Games Played: {userStats.gamesPlayed}</p>
+        <h3>Current Game</h3>
+        <p>Spent: ${currentGameSpent}</p>
+        <p>Won: ${currentGameWinnings}</p>
+      </div>
     </div>
   );
 };
