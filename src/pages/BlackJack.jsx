@@ -207,8 +207,9 @@ export const BlackJack = (props) => {
     const stand = async () => {
         let updatedDealerHand = [...dealerHand];
         let dealerValue = calculateHandValue(updatedDealerHand);
+        const playerValue = calculateHandValue(playerHand);
         
-        while (dealerValue < 17) {
+        while (dealerValue < 17 && dealerValue < playerValue) {
             const newCard = await dealCard();
             if (newCard) {
                 updatedDealerHand.push(newCard);
