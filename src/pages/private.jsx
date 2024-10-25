@@ -14,7 +14,7 @@ const Private = (props) => {
         <div className="topnav">
                 <h3 className="marca"> GameGuard </h3>
                 <div className="buttonContainer">
-                    <button className="topButton2" onClick={() => navigate('/start')}> My Account </button> {/* Change route to profile */}
+                    <button className="topButton2" onClick={() => navigate('/perfil')}> My Account </button> {/* Change route to profile */}
                     <button className="topButton1" onClick={() => navigate('/start')}> SignOut </button>
                 </div>
             </div>

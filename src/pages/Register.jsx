@@ -36,7 +36,7 @@ export const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log('Usuario autenticado con Google:', user);
-        navigate('/home');  // Redirigir al usuario a una página protegida
+        navigate('/usuario');  // Redirigir al usuario a una página protegida
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -52,7 +52,7 @@ export const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log('Usuario autenticado con Apple:', user);
-        navigate('/home');  // Redirigir al usuario a una página protegida
+        navigate('/usuario');  // Redirigir al usuario a una página protegida
       })
       .catch((error) => {
         const errorCode = error.code;

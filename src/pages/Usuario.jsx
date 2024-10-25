@@ -14,7 +14,7 @@ export const Usuario = (props) => {
             <div className="topnav">
                 <h3 className="marca"> GameGuard </h3>
                 <div className="buttonContainer">
-                    <button className="topButton2" onClick={() => navigate('/start')}> My Account </button> {/* Change route to profile */}
+                    <button className="topButton2" onClick={() => navigate('/perfil')}> My Account </button> {/* Change route to profile */}
                     <button className="topButton1" onClick={() => navigate('/start')}> SignOut </button>
                 </div>
             </div>
@@ -47,7 +47,7 @@ export const Usuario = (props) => {
                 <div className="column">
                     <div className="content-box">
                         <h2>MY ACCOUNT</h2>
-                        <button className="column-button" onClick={() => navigate('/my-account')}>Play Now</button> {/* Add onClick for nav */}
+                        <button className="column-button" onClick={() => navigate('/my-account')}>VISIT</button> {/* Add onClick for nav */}
                         <br />
                         <img src="https://www.pngplay.com/wp-content/uploads/12/Coins-PNG-Photo-Clip-Art-Image.png" alt="Image 3" className="image" />
                     </div>

@@ -10,6 +10,8 @@ import { Register } from './pages/Register';
 import { Start } from './pages/Start';
 import { Visitante } from './pages/Visitante';
 import { Usuario } from './pages/Usuario';
+import { Perfil } from './pages/Perfil';
+import {BlackJack} from './pages/BlackJack';
 import Ruleta from './pages/Ruleta'; // Importa la página de la ruleta
 
 function App() {
@@ -49,6 +51,8 @@ function App() {
         <Route path="/usuario" element={<Usuario />} />
         <Route path="/start" element={<Start />} />
         <Route path="/ruleta" element={<Ruleta />} /> {/* Nueva ruta de la ruleta */}
+        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/blackjack" element={<BlackJack />} />
       </Routes>
     </BrowserRouter>
     </div>

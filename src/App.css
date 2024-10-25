@@ -176,3 +176,244 @@ button {
   height: 20px; /* Ajusta la altura también */
   margin-right: 10px; /* Añade espacio entre el logo y el texto */
 }
+
+.App {
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-image: linear-gradient(180deg, #000000 50%, #2d460afd);
+}
+
+.auth-form-container, .login-form, .register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fondoPerfil {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0.8) 100%), url('https://png.pngtree.com/background/20230516/original/pngtree-an-interior-casino-room-with-card-tables-picture-image_2610907.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+}
+
+
+.titulos {
+  font-size: 75pt;
+  font-weight: bolder;
+}
+
+.subtitulos {
+  font-size: 45pt;
+  font-weight: bolder;
+  color: #DE1919;
+}
+
+label {
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+
+button {
+  border-color: #00000000;
+  background-color: #A7EE43;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: black ;
+  font-weight: bolder;
+}
+
+.game-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+}
+
+.cards img {
+  width: 100px; /* Adjust the size as needed */
+  margin: 5px;
+}
+
+.card {
+  width: 100px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin: 5px; /* Space between cards */
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.blackjack-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+
+.link-btn {
+  background: none;
+  color: white;
+  text-decoration: underline;
+}
+
+.topnav {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100vw;
+  padding: 10px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.marca {
+  font-size: 20pt;
+  color: #A7EE43;
+  margin-left: 10px;
+}
+
+.topButton1 {
+  color: #000;
+  background-color: #A7EE43;
+  border-color: #00000000;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.topButton2 {
+  color: #A7EE43;
+  background-color: #000000;
+  border-color: #A7EE43;
+  padding: 8px 16px; 
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+  margin-right: 25px;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; 
+  color: #555555;
+  border: 1px solid #dddddd;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px; 
+}
+
+.row {
+  display: flex;
+  justify-content: space-between; 
+  padding: 20px;
+}
+
+.column {
+  flex: 1; 
+  margin: 10px; 
+}
+
+.content-box {
+  border: 1px solid #000;
+  padding: 10px;
+  text-align: center;
+  border-color: #a7ee43a4;
+  border-radius: 25px;
+  height: 500px;
+  width: 350px;
+}
+
+.statistic-container {
+  position: fixed; 
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for the width and height of the container */
+  display: flex; 
+  justify-content: space-between; 
+  width: 100%; 
+  max-width: 1100px; 
+  padding: 0; 
+  margin-top: 10px; /* Optional, can adjust if needed */
+}
+
+
+.statistic-box {
+  border: 1px solid #000;
+  padding: 10px;
+  border-color: #a7ee43a4;
+  border-radius: 25px;
+  height: 125px;
+  width: 225px;
+  text-align: left;
+}
+
+.statistics {
+  font-size: 40pt;
+  font-weight: bolder;
+  text-align: center;
+  margin: 0; 
+  padding: 10px; 
+}
+
+.statistic-box a {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.image {
+  margin-top: 25px;
+  width: auto;
+  height: 65%; 
+}
+
+.column-button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #A7EE43;
+  border: none;
+  cursor: pointer;
+}
