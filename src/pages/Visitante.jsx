@@ -22,14 +22,11 @@ export const Visitante =  (props) => {
                     
                 </div>
                 <div className="column">
-                    <div className="content-box">
+                <div className="content-box">
                         <h2>BLACKJACK</h2>
-                        <button className="column-button">Play Now</button> 
-                        <img 
-                            src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-blackjack-png-image_6107450.png " 
-                            alt="Image 2" 
-                            className="image" 
-                        />
+                        <button className="column-button" onClick={() => navigate('/blackjack')}>Play Now</button> {/* Add onClick for nav */}
+                        <br />
+                        <img src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-blackjack-png-image_6107450.png" alt="Image 2" className="image" />
                     </div>
                 </div>
                 <div className="column">
