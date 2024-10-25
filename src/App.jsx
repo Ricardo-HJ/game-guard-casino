@@ -11,7 +11,7 @@ import { Start } from './pages/Start';
 import { Visitante } from './pages/Visitante';
 import { Usuario } from './pages/Usuario';
 import { Perfil } from './pages/Perfil';
-import {BlackjackGame} from './pages/BlackJack';
+import BlackjackGame from './pages/BlackJack';
 
 function App() {
   const [user, setUser] = useState(null);

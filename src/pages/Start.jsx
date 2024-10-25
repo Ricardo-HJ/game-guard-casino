@@ -9,8 +9,7 @@ export const Start = () => {
         <div className="topnav">
             <h3 className="marca" > GameGuard </h3>
             <div className="buttonContainer">
-            <button className="topButton1"  onClick={() => navigate('/register')}> SignUp </button>
-            <button className="topButton2"  onClick={() => navigate('/home')}> LogIn </button> 
+            <button className="topButton1"  onClick={() => navigate('/register')}> Use your account </button>
             </div>
         </div>
 
