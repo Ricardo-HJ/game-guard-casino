@@ -8,6 +8,16 @@
   background-image: linear-gradient(180deg, #000000 50%, #2d460afd);
 }
 
+.app-table {
+  display: flex;
+  width: 1655px;
+  height: 961px;
+  min-height: 900px;
+  flex-direction: column;
+  align-items: center;
+  background: #080F17;
+}
+
 .fondoPerfil {
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0.8) 100%), url('https://png.pngtree.com/background/20230516/original/pngtree-an-interior-casino-room-with-card-tables-picture-image_2610907.jpg');
   background-size: cover;

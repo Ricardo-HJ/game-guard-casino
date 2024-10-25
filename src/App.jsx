@@ -37,7 +37,7 @@ function App() {
   }
 
   return (
-    <div className={location.pathname === '/Blackjack' ? 'app-table' : 'App'}>
+    <div className={location.pathname === '/blackjack' ? 'app-table' : 'App'}>
       <Routes>
         <Route index path="/" element={<Start />} />
         <Route path="/private" element={

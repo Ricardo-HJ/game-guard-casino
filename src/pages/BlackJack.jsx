@@ -176,21 +176,8 @@ export default function BlackjackGame() {
     }
   };
 
-  const handleExit = () => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        navigate('/usuario');
-      } else {
-        navigate('/visitante');
-      }
-    });
-  };
-
   return (
     <React.Fragment>
-      <div className="buttonContainer">
-        <button className="topButton2" onClick={handleExit}>Exit</button> 
-      </div>
       <TopBar status="Blackjack" />
       <div className="game-table">
         <div className="table-container">
