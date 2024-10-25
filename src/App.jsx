@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Home from "./pages/home";
 import Private from './pages/private';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -11,12 +11,12 @@ import { Start } from './pages/Start';
 import { Visitante } from './pages/Visitante';
 import { Usuario } from './pages/Usuario';
 import { Perfil } from './pages/Perfil';
-import {BlackJack} from './pages/BlackJack';
-import Ruleta from './pages/Ruleta'; // Importa la página de la ruleta
+import {BlackjackGame} from './pages/BlackJack';
 
 function App() {
   const [user, setUser] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const location = useLocation(); // Get current route
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -36,8 +36,7 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <BrowserRouter>
+    <div className={location.pathname === '/Blackjack' ? 'app-table' : 'App'}>
       <Routes>
         <Route index path="/" element={<Start />} />
         <Route path="/private" element={
@@ -50,13 +49,17 @@ function App() {
         <Route path="/visitante" element={<Visitante />} />
         <Route path="/usuario" element={<Usuario />} />
         <Route path="/start" element={<Start />} />
-        <Route path="/ruleta" element={<Ruleta />} /> {/* Nueva ruta de la ruleta */}
         <Route path="/perfil" element={<Perfil />} />
-        <Route path="/blackjack" element={<BlackJack />} />
+        <Route path="/blackjack" element={<BlackjackGame />} />
       </Routes>
-    </BrowserRouter>
     </div>
   );
 }
 
-export default App;
+export default function Root() {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+}
