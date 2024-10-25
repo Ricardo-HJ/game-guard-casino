@@ -1,65 +1,75 @@
 import React, { useState } from 'react';
-import './Ruleta.css'; // Asegúrate de tener el archivo CSS para la ruleta
-import { db, auth } from '../firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import './Ruleta.css'; 
+import ruletaImage from '../assets/ruleta.png'; 
 
-const numeros = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+const tablero = [
+  { numero: 3, color: 'red' }, { numero: 6, color: 'black' }, { numero: 9, color: 'red' }, { numero: 12, color: 'red' }, 
+  { numero: 15, color: 'black' }, { numero: 18, color: 'red' }, { numero: 21, color: 'red' }, { numero: 24, color: 'black' }, 
+  { numero: 27, color: 'red' }, { numero: 30, color: 'black' }, { numero: 33, color: 'red' }, { numero: 36, color: 'black' },
+  { numero: 2, color: 'black' }, { numero: 5, color: 'red' }, { numero: 8, color: 'black' }, { numero: 11, color: 'black' }, 
+  { numero: 14, color: 'red' }, { numero: 17, color: 'black' }, { numero: 20, color: 'black' }, { numero: 23, color: 'red' }, 
+  { numero: 26, color: 'black' }, { numero: 29, color: 'black' }, { numero: 32, color: 'red' }, { numero: 35, color: 'black' },
+  { numero: 1, color: 'red' }, { numero: 4, color: 'black' }, { numero: 7, color: 'red' }, { numero: 10, color: 'black' }, 
+  { numero: 13, color: 'red' }, { numero: 16, color: 'black' }, { numero: 19, color: 'red' }, { numero: 22, color: 'black' }, 
+  { numero: 25, color: 'red' }, { numero: 28, color: 'black' }, { numero: 31, color: 'red' }, { numero: 34, color: 'black' },
+  { numero: 0, color: 'green' }
+];
 
 const Ruleta = () => {
+  const [apuesta, setApuesta] = useState(null);
   const [girando, setGirando] = useState(false);
-  const [resultado, setResultado] = useState(null);
-  const [apuesta, setApuesta] = useState('');
-  const [dinero, setDinero] = useState(1000);
+  const [ganador, setGanador] = useState(null); // Estado para el número ganador
 
-  const girar = () => {
+  const handleApuesta = (numero) => {
+    setApuesta(numero);
+    console.log(`Has apostado al número: ${numero}`);
+  };
+
+  const girarRuleta = () => {
     setGirando(true);
-    const indiceAleatorio = Math.floor(Math.random() * numeros.length);
-    const duracion = 5000; // Duración de la animación en milisegundos
+    setGanador(null); // Reinicia el mensaje de ganador antes del giro
 
     setTimeout(() => {
+      const resultado = Math.floor(Math.random() * tablero.length);
+      setGanador(tablero[resultado].numero); // Actualiza el número ganador
       setGirando(false);
-      const numeroElegido = numeros[indiceAleatorio];
-      setResultado(numeroElegido);
-
-      if (parseInt(apuesta) === numeroElegido) {
-        alert(`¡Ganaste! El número es ${numeroElegido}`);
-        setDinero(dinero + 100);
-        actualizarFirestore(dinero + 100, apuesta, numeroElegido);
-      } else {
-        alert(`¡Perdiste! El número es ${numeroElegido}`);
-        setDinero(dinero - 50);
-        actualizarFirestore(dinero - 50, apuesta, numeroElegido);
-      }
-    }, duracion);
+    }, 3000); // Simula 3 segundos de giro
   };
 
-  const actualizarFirestore = async (nuevoDinero, cantidadApuesta, numeroResultado) => {
-    const usuario = auth.currentUser;
-    if (usuario) {
-      const docUsuario = doc(db, 'usuarios', usuario.uid);
-      await setDoc(docUsuario, {
-        dinero: nuevoDinero,
-        ultimaApuesta: cantidadApuesta,
-        ultimoResultado: numeroResultado,
-      }, { merge: true });
-    }
-  };
+  const picks = [
+    { label: 'Red', color: 'red' }, 
+    { label: 'Black', color: 'black' }
+  ];
 
   return (
-    <div className="contenedor-ruleta">
-      <div className={`ruleta ${girando ? 'girando' : ''}`}></div>
-      <input
-        type="number"
-        placeholder="Coloca tu apuesta (0-36)"
-        value={apuesta}
-        onChange={(e) => setApuesta(e.target.value)}
-        disabled={girando}
-      />
-      <button onClick={girar} disabled={girando || !apuesta}>
-        Girar la Ruleta
-      </button>
-      {resultado !== null && <p>Resultado: {resultado}</p>}
-      <p>Dinero: ${dinero}</p>
+    <div className="ruleta-container">
+      <img src={ruletaImage} alt="Ruleta" className={`ruleta-imagen ${girando ? 'girar' : ''}`} />
+
+      <h2>Elige tu número</h2>
+      <div className="tablero-grid">
+        {tablero.map((item) => (
+          <div
+            key={item.numero}
+            className={`casilla ${item.color} ${item.numero === 0 ? 'casilla-0' : ''}`}
+            onClick={() => handleApuesta(item.numero)}
+          >
+            {item.numero}
+          </div>
+        ))}
+        <div className="picks-grid">
+          {picks.map((pick, index) => (
+            <div key={index} className={`pick ${pick.color || ''}`} onClick={() => handleApuesta(pick.label)}>
+              {pick.label}
+            </div>
+          ))}
+        </div>
+      </div>
+      {apuesta !== null && <p>Apuesta seleccionada: {apuesta}</p>}
+      
+      <button onClick={girarRuleta} disabled={girando}>Girar ruleta</button>
+
+      {/* Mostrar el número ganador */}
+      {ganador !== null && <p>El número ganador es: {ganador}</p>}
     </div>
   );
 };
