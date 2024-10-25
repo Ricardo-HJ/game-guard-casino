@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopBar from "../components/TopBar";
+import { auth } from '../firebase'; // Import Firebase authentication
 
 // Card image mapping
 const getCardImage = (value, suit) => {
@@ -105,7 +106,6 @@ export default function BlackjackGame() {
     setGameStatus('');
     setIsGameActive(true);
 
-    // Only check for Blackjack
     const playerValue = calculateHandValue([playerCard1, playerCard2]);
     const dealerValue = calculateHandValue([dealerCard1, dealerCard2]);
 
@@ -166,7 +166,6 @@ export default function BlackjackGame() {
     } else if (status.includes("lose")) {
       setPlayerBank(prevBank => prevBank - pot);
     }
-    // If it's a tie, the pot remains unchanged
   };
 
   const placeBet = (amount) => {
@@ -177,11 +176,21 @@ export default function BlackjackGame() {
     }
   };
 
+  const handleExit = () => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        navigate('/usuario');
+      } else {
+        navigate('/visitante');
+      }
+    });
+  };
+
   return (
     <React.Fragment>
-        <div className="buttonContainer">
-                    <button className="topButton2" onClick={() => navigate('/start')}> Exit </button> 
-                </div>
+      <div className="buttonContainer">
+        <button className="topButton2" onClick={handleExit}>Exit</button> 
+      </div>
       <TopBar status="Blackjack" />
       <div className="game-table">
         <div className="table-container">
