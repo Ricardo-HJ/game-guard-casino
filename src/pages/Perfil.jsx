@@ -1,13 +1,42 @@
-import React from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from '../firebase'; 
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase'; 
 
-export const Perfil = (props) => {
+export const Perfil = () => {
     const navigate = useNavigate();
+    const [userStats, setUserStats] = useState({ moneyLost: 0, moneyGained: 0, gamesPlayed: 0 });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const user = auth.currentUser;
+        if (user) {
+            const fetchUserStats = async () => {
+                const userDoc = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(userDoc);
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    setUserStats({
+                        moneyLost: userData.moneyLost || 0,
+                        moneyGained: userData.moneyGained || 0,
+                        gamesPlayed: userData.gamesPlayed || 0
+                    });
+                }
+                setLoading(false); // Set loading to false after fetching
+            };
+            fetchUserStats();
+        }
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log();
     };
+
+    if (loading) {
+        return <div>Loading...</div>; // Show loading state while fetching user stats
+    }
 
     return (
         <div className="fondoPerfil">
@@ -24,24 +53,25 @@ export const Perfil = (props) => {
                 
                 <div className="statistic-container" style={{ display: 'flex', justifyContent: 'space-around', width: '100%', maxWidth: '1100px' }}>
                     <div className="statistic-box">
-                        <a>MoneyLost</a>
-                        <h1 className="statistics">$800</h1>
+                        <a>Money Lost</a>
+                        <h1 className="statistics">${userStats.moneyLost}</h1>
                     </div>
                     <div className="statistic-box">
-                        <a>MoneyGained</a>
-                        <h1 className="statistics">$500</h1>
+                        <a>Money Gained</a>
+                        <h1 className="statistics">${userStats.moneyGained}</h1>
                     </div>
                     <div className="statistic-box">
-                        <a>GamesPlayed</a>
-                        <h1 className="statistics">115</h1>
+                        <a>Games Played</a>
+                        <h1 className="statistics">{userStats.gamesPlayed}</h1>
                     </div>
                     <div className="statistic-box">
-                        <a>CurrentOutcome</a>
-                        <h1 className="statistics" style={{ color: 'greenyellow' }}>Positivo</h1>
+                        <a>Current Outcome</a>
+                        <h1 className="statistics" style={{ color: 'greenyellow' }}>
+                            {userStats.moneyGained > userStats.moneyLost ? 'Positivo' : 'Negativo'}
+                        </h1>
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };
