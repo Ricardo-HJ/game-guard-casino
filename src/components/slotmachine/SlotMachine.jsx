@@ -18,7 +18,7 @@ const winPayouts = {
 const SlotMachine = () => {
   const [indexes, setIndexes] = useState([0, 0, 0]);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [money, setMoney] = useState(1000);
+  const [money, setMoney] = useState(null); // Initialize as null to indicate loading
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -27,7 +27,7 @@ const SlotMachine = () => {
         const userDoc = doc(db, 'users', user.uid);
         const docSnap = await getDoc(userDoc);
         if (docSnap.exists()) {
-          setMoney(docSnap.data().money);
+          setMoney(docSnap.data().money); // Set the actual money from Firestore
         }
       };
       fetchUserMoney();
@@ -38,11 +38,27 @@ const SlotMachine = () => {
     const user = auth.currentUser;
     if (user) {
       const userDoc = doc(db, 'users', user.uid);
-      await setDoc(userDoc, {
-        money: newMoney,
-        spent: spentAmount, // Update spent only when spinning
-        winnings: winningsAmount // Update winnings based on results
-      }, { merge: true });
+      const userSnapshot = await getDoc(userDoc);
+      
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data();
+
+        await setDoc(userDoc, {
+          money: newMoney,
+          moneyLost: (userData.moneyLost || 0) + spentAmount,
+          moneyGained: (userData.moneyGained || 0) + winningsAmount,
+          gamesPlayed: (userData.gamesPlayed || 0) + 1 // Increment gamesPlayed by 1
+        }, { merge: true });
+      }
+    }
+  };
+
+  const resetMoneyTo1000 = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const userDoc = doc(db, 'users', user.uid);
+      await setDoc(userDoc, { money: 1000 }, { merge: true });
+      setMoney(1000); // Update the state after resetting the money
     }
   };
 
@@ -97,6 +113,10 @@ const SlotMachine = () => {
     });
   };
 
+  if (money === null) {
+    return <div>Loading...</div>; // Display loading state while fetching data
+  }
+
   return (
     <div>
       <div className="slots">
@@ -109,6 +129,7 @@ const SlotMachine = () => {
       </button>
       <div className="money">Money: ${money}</div>
       {money < spinCost && <div className="no-money">Not enough money to spin!</div>}
+      <button onClick={resetMoneyTo1000}>Reset Money to $1000</button>
     </div>
   );
 };
